@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vincewebapp-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vincewebapp
+  template:
+    metadata:
+      labels:
+        app: vincewebapp
+    spec:
+      containers:
+      - name: vincewebapp
+        image: 145988340565.dkr.ecr.us-west-2.amazonaws.com/asg
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+# service type loadbalancer       
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: vincewebapp
+    k8s-app: vincewebapp
+  name: vincewebapp
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  type: LoadBalancer
+  selector:
+    app: vincewebapp
