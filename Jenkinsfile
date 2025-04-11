@@ -21,9 +21,9 @@ pipeline {
 
 	stage('Build') { 
             steps { 
-               withDockerRegistry([credentialsId: "dockerlogin", url: ""]) {
+               withDockerRegistry([credentialsId: "dockerlogin", url: "https://hub.docker.com/repository/docker/vincewee/vince"]) {
                  script{
-                 app =  docker.build("vince")
+                 app =  docker.build("latest")
                  }
                }
             }
