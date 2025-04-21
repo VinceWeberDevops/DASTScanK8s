@@ -19,20 +19,3 @@ spec:
         ports:
         - containerPort: 8080
 # service type loadbalancer       
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: vincewebapp
-    k8s-app: vincewebapp
-  name: vincewebapp
-spec:
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 8080
-  type: LoadBalancer
-  selector:
-    app: vincewebapp
