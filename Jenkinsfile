@@ -6,8 +6,16 @@ pipeline {
    stages{
     stage('CompileandRunSonarAnalysis') {
             steps {	
-		sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=vincebuggywebapp -Dsonar.organization=vincebuggywebapp -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=182d66a24de604373489a80b705561d76f4650dc'
-			}
+                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                    sh '''
+                        mvn clean verify sonar:sonar \
+                            -Dsonar.projectKey=vincetoken \
+                            -Dsonar.organization=vincetoken \
+                            -Dsonar.host.url=https://sonarcloud.io \
+                            -Dsonar.token=${SONAR_TOKEN}
+                    '''
+                }
+            }
     }
 
 	stage('RunSCAAnalysisUsingSnyk') {
@@ -21,9 +29,9 @@ pipeline {
 
 	stage('Build') { 
             steps { 
-               withDockerRegistry([credentialsId: "dockerlogin", url: "https://hub.docker.com/repository/docker/vincewee/vince"]) {
+               withDockerRegistry([credentialsId: "dockerlogin", url: "https://hub.docker.com/repository/docker/vincewee/easybuggy"]) {
                  script{
-                 app =  docker.build("latest")
+                 app =  docker.build("1.0.0")
                  }
                }
             }
