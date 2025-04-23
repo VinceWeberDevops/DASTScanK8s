@@ -9,8 +9,8 @@ pipeline {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     sh '''
                         mvn clean verify sonar:sonar \
-                            -Dsonar.projectKey=vincetoken \
-                            -Dsonar.organization=vincetoken \
+                            -Dsonar.projectKey=vincebuggywebapp \
+                            -Dsonar.organization=vincebuggywebapp \
                             -Dsonar.host.url=https://sonarcloud.io \
                             -Dsonar.token=${SONAR_TOKEN}
                     '''
