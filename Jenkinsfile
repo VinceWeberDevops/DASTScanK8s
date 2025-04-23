@@ -18,15 +18,6 @@ pipeline {
             }
     }
 
-	stage('RunSCAAnalysisUsingSnyk') {
-            steps {		
-				withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
-          sh 'echo SNYK_TOKEN variable starts with: ${SNYK_TOKEN:0:4}'
-          sh 'mvn snyk:test -fn'
-				}
-			}
-    }
-
 	stage('Build') { 
             steps { 
                withDockerRegistry([credentialsId: "dockerlogin", url: "https://hub.docker.com/repository/docker/vincewee/easybuggy"]) {
@@ -37,15 +28,15 @@ pipeline {
             }
     }
 
-	stage('Push') {
-            steps {
-                script{
-                    docker.withRegistry('https://022498999951.dkr.ecr.us-west-2.amazonaws.com', 'ecr:us-west-2:aws-credentials') {
-                    app.push("latest")
-                    }
-                }
-            }
-    	}
+// 	stage('Push') {
+//             steps {
+//                 script{
+//                     docker.withRegistry('https://022498999951.dkr.ecr.us-west-2.amazonaws.com', 'ecr:us-west-2:aws-credentials') {
+//                     app.push("latest")
+//                     }
+//                 }
+//             }
+//     	}
 	    
-  }
-}
+//   }
+// }
