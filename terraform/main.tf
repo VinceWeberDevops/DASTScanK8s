@@ -1,3 +1,7 @@
+########################################
+# RESOURCES - VPC, IGW, and ROUTE TABLES
+########################################
+
 resource "aws_security_group" "JenkinsMaster" {
   name        = "JenkinsMaster"
   description = "Allow Jenkins Traffic"
@@ -31,7 +35,9 @@ resource "aws_security_group" "JenkinsMaster" {
     Name = "JenkinsMaster Instance"
   }
 }
-
+########################################
+# RESOURCES - EC2 INSTANCES & IAM ROLE
+########################################
 data "aws_ami" "amazon_linux" {
   most_recent = true
 
