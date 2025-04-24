@@ -28,15 +28,15 @@ pipeline {
             }
     }
 
-// 	stage('Push') {
-//             steps {
-//                 script{
-//                     docker.withRegistry('https://022498999951.dkr.ecr.us-west-2.amazonaws.com', 'ecr:us-west-2:aws-credentials') {
-//                     app.push("latest")
-//                     }
-//                 }
-//             }
-//     	}
+	stage('Push') {
+            steps {
+                script{
+                    docker.withRegistry('022498999951.dkr.ecr.eu-west-2.amazonaws.com', 'ecr:eu-west-2:aws-credentials') {
+                    app.push("1.0.0")
+                    }
+                }
+            }
+    	}
 	    
-//   }
-// }
+  }
+}
