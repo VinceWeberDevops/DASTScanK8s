@@ -1,12 +1,22 @@
 pipeline {
-  agent any
-  tools { 
-        maven 'Maven_3_2_5'  
+    agent any
+    
+    environment {
+        DOCKER_IMAGE = 'vincewee/easybuggy'
+        DOCKER_TAG = '1.0.0'
+        ECR_REGISTRY = '022498999951.dkr.ecr.eu-west-2.amazonaws.com'
     }
-   stages{
-    stage('CompileandRunSonarAnalysis') {
-            steps {	
-                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+    
+    tools { 
+        maven 'Maven_3_2_5'
+    }
+   
+    stages {
+        stage('CompileandRunSonarAnalysis') {
+            steps {    
+                withCredentials([
+                    string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')
+                ]) {
                     sh '''
                         mvn clean verify sonar:sonar \
                             -Dsonar.projectKey=vincebuggywebapp \
@@ -16,27 +26,44 @@ pipeline {
                     '''
                 }
             }
-    }
+        }
 
-	stage('Build') { 
+        stage('Build') { 
             steps { 
-               withDockerRegistry([credentialsId: "dockerlogin", url: "https://hub.docker.com/repository/docker/vincewee/easybuggy"]) {
-                 script{
-                 app =  docker.build("1.0.0")
-                 }
-               }
-            }
-    }
-
-	stage('Push') {
-            steps {
-                script{
-                    docker.withRegistry('022498999951.dkr.ecr.eu-west-2.amazonaws.com', 'ecr:eu-west-2:aws-credentials') {
-                    app.push("1.0.0")
+                withDockerRegistry([
+                    credentialsId: "dockerlogin", 
+                    url: "https://index.docker.io/v1/"
+                ]) {
+                    script {
+                        app = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
                     }
                 }
             }
-    	}
-	    
-  }
-}
+        }
+
+        stage('Push') {
+            steps {
+                script {
+                    docker.withRegistry(
+                        "https://${ECR_REGISTRY}", 
+                        'ecr:eu-west-2:aws-credentials'
+                    ) {
+                        app.push("${DOCKER_TAG}")
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        failure {
+            echo 'Pipeline failed! Check the logs for details.'
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        always {
+            // Clean up workspace
+            cleanWs()
+        }
+    }
