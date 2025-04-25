@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# ==============================================================================
+# DevOps Environment Setup Script
+# ==============================================================================
+# Description: Automates the installation and configuration of a standard
+#              DevOps toolset on a Red Hat-based Linux system (like Amazon Linux 2, CentOS, Fedora).
+# Includes: Java, Jenkins, Maven, Git, Node.js, AWS CLI, Docker, kubectl, eksctl, OWASP ZAP.
+# Usage: Run this script with sudo privileges or as root.
+# ==============================================================================
+
+
 set -euo pipefail  # Exit on error, undefined vars, and pipeline failures
 
 # Versions as variables for easier maintenance
@@ -103,4 +113,6 @@ log "Checking service status..."
 sudo systemctl status docker --no-pager
 sudo systemctl status jenkins --no-pager
 
-log "Installation completed successfully!"
+log "Installation script completed successfully!"
+echo "NOTE: You may need to log out and log back in for Docker group changes to take effect for user '$USER'."
+
