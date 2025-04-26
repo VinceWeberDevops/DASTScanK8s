@@ -118,7 +118,7 @@
 		<dependency>
 			<groupId>ognl</groupId>
 			<artifactId>ognl</artifactId>
-			<version>3.0.17</version>
+			<version>3.4.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.mail</groupId>
