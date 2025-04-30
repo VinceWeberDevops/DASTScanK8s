@@ -58,6 +58,21 @@ log "Installing development tools..."
 sudo yum install -y git nodejs npm unzip jq
 check_status "Development tools installation"
 
+# Install and configure Docker
+log "Installing Docker..."
+sudo yum install -y docker
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER
+sudo usermod -aG docker jenkins
+sudo systemctl restart docker
+check_status "Docker installation and configuration"
+
+# Create a Docker test container to verify proper setup (optional)
+log "Creating Docker test container..."
+sudo docker run --name docker-test-container -d --restart always hello-world
+check_status "Docker test container"
+
 # Install Maven
 log "Installing Maven..."
 sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
