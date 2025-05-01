@@ -1,138 +1,98 @@
-[![Build Status](https://travis-ci.org/k-tamura/easybuggy.svg?branch=master)](https://travis-ci.org/k-tamura/easybuggy)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![GitHub release](https://img.shields.io/github/release/k-tamura/easybuggy.svg)](https://github.com/k-tamura/easybuggy/releases/latest)
+# DASTScanK8s: Enterprise-Grade DevSecOps Pipeline
 
-EasyBuggy Vulnerable Web App Modified by A Security Guru :baby_symbol:
-=
+> **A modern, fully automated security testing infrastructure for today's cloud-native applications**
 
-EasyBuggy is a broken web application in order to understand behavior of bugs and vulnerabilities, for example, [memory leak, deadlock, JVM crash, SQL injection and so on](https://github.com/k-tamura/easybuggy#clock4-easybuggy-can-reproduce).
+## Executive Summary
 
-![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_eb.gif)
+The DASTScanK8s project represents a comprehensive DevSecOps implementation that seamlessly integrates security throughout the entire software development lifecycle. It serves as a showcase of industry best practices for organizations seeking to adopt a "shift-left" security approach while maintaining deployment velocity.
 
-:clock4: Quick Start
--
+This enterprise-ready solution combines Static Application Security Testing (SAST), Dynamic Application Security Testing (DAST), and Software Composition Analysis (SCA) in an automated pipeline that scales with your development teams and provides actionable security insights without slowing delivery.
 
-    $ mvn clean install
+## Key Business Benefits
 
-( or ``` java -jar easybuggy.jar ``` or deploy ROOT.war on your servlet container with [the JVM options](https://github.com/k-tamura/easybuggy/blob/master/pom.xml#L204). )
+- **Reduced Security Risks**: Catch vulnerabilities before they reach production
+- **Accelerated Compliance**: Automate security checks required for SOC2, ISO27001, and PCI-DSS
+- **Lower Operational Costs**: Eliminate manual security testing and reduce incident response time
+- **Improved Developer Experience**: Security feedback within familiar tools and workflows
+- **Faster Time-to-Market**: Security testing that keeps pace with agile development
 
-Access to
+## Technical Highlights
 
-    http://localhost:8080
+### 🔍 Comprehensive Security Testing
 
-:clock4: Quick Start(Docker)
--
+This project demonstrates the implementation and orchestration of:
 
-    $ docker build . -t easybuggy:local # Build container image
-    $ docker run -p 8080:8080 easybuggy:local # Start easybuggy
+- **SAST (Static Application Security Testing)**: Code-level vulnerability detection via SonarQube integration, identifying issues like SQL injection, XSS, and insecure coding patterns without execution
+- **DAST (Dynamic Application Security Testing)**: Real-time attack simulation against running applications using OWASP ZAP, detecting runtime vulnerabilities missed by static analysis
+- **SCA (Software Composition Analysis)**: Identification of vulnerable open-source dependencies and license compliance issues in the application supply chain
+- **Container Security Scanning**: Detecting vulnerabilities in container images before deployment to production
 
-Access to
+### 🚀 Modern DevOps Approach
 
-    http://localhost:8080
+Built on a foundation of DevOps excellence:
 
-### To stop:
+- **Infrastructure as Code**: Complete AWS infrastructure provisioned through version-controlled Terraform modules
+- **Immutable Infrastructure**: Consistent environments with containerized applications and infrastructure
+- **CI/CD Automation**: Zero-touch deployment pipeline through Jenkins with quality gates
+- **Cloud-Native Architecture**: Leveraging AWS managed services (EKS, ECR) for scalability and reliability
+- **GitOps Workflow**: Infrastructure and application changes through pull requests and code reviews
 
-  Use <kbd>CTRL</kbd>+<kbd>C</kbd> ( or access to: http://localhost:8080/exit )
+### 🛡️ Security Automation & Orchestration
 
-:clock4: For more detail
--
-   
-See [the wiki page](https://github.com/k-tamura/easybuggy/wiki).
+Rather than just scanning, this project demonstrates how to:
 
-:clock4: Demo
--
+- **Automate Remediation**: Auto-generation of pull requests for vulnerable dependencies
+- **Security Policy as Code**: Define security requirements as machine-readable policies
+- **Continuous Compliance**: Real-time monitoring and enforcement of security standards
+- **Security Metrics Dashboard**: Visualization of security posture across applications
+- **Vulnerability Management**: Complete tracking from detection to resolution
 
-This demo shows: Start up -> Infinite Loop -> LDAP Injection -> UnsatisfiedLinkError -> BufferOverflowException -> Deadlock -> Memory Leak -> JVM Crash (Shut down)
+## Implementation Architecture
 
-![demo](https://github.com/k-tamura/easybuggy/blob/master/demo_eb.gif)
+The architecture implements a full security-focused deployment pipeline with:
 
-:clock4: EasyBuggy can reproduce:
--
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│  Code Commit    │────▶│  Jenkins CI/CD   │────▶│  AWS ECR        │
+│  (Git)          │     │  (Build & Test)  │     │  (Images)       │
+└─────────────────┘     └──────────────────┘     └────────┬────────┘
+                               │                          │
+                               ▼                          ▼
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│  SonarQube      │◀────│  Security Gates  │────▶│  AWS EKS        │
+│  (SAST)         │     │  (Policy Check)  │     │  (Kubernetes)   │
+└─────────────────┘     └──────────────────┘     └────────┬────────┘
+                               ▲                          │
+                               │                          ▼
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│  Dependency     │────▶│  OWASP ZAP       │◀────│  Monitoring &   │
+│  Scanning (SCA) │     │  (DAST)          │     │  Alerting       │
+└─────────────────┘     └──────────────────┘     └─────────────────┘
+```
 
-* Troubles
 
-  * Memory Leak (Java heap space)
-  * Memory Leak (PermGen space)
-  * Memory Leak (C heap space)
-  * Deadlock (Java)
-  * Deadlock (SQL)
-  * Endless Waiting Process
-  * Infinite Loop
-  * Redirect Loop
-  * Forward Loop
-  * JVM Crash
-  * Network Socket Leak
-  * Database Connection Leak
-  * File Descriptor Leak 
-  * Thread Leak 
-  * Mojibake
-  * Integer Overflow
-  * Round Off Error
-  * Truncation Error
-  * Loss of Trailing Digits
+## For Hiring Managers
 
-* Vulnerabilities
+This project demonstrates proficiency in:
 
-  * XSS (Cross-Site Scripting)
-  * SQL Injection
-  * LDAP Injection
-  * Code Injection
-  * OS Command Injection (OGNL Expression Injection)
-  * Mail Header Injection
-  * Null Byte Injection
-  * Extension Unrestricted File Upload
-  * Size Unrestricted File Upload
-  * Open Redirect
-  * Brute-force Attack
-  * Session Fixation Attacks
-  * Verbose Login Error Messages
-  * Dangerous File Inclusion
-  * Directory Traversal
-  * Unintended File Disclosure
-  * CSRF (Cross-Site Request Forgery)
-  * XEE (XML Entity Expansion)
-  * XXE (XML eXternal Entity)
-  * Clickjacking
+1. **Cloud Architecture & Security**: Designing secure AWS infrastructure with defense-in-depth principles
+2. **DevSecOps Implementation**: Building automated pipelines with security controls that don't impede velocity
+3. **Infrastructure as Code**: Managing complex infrastructure through Terraform with security best practices
+4. **Container Orchestration**: Deploying and managing applications on Kubernetes with security considerations
+5. **Security Testing Automation**: Integrating and automating multiple security testing methodologies
+6. **Compliance Automation**: Building systems that continuously validate security and compliance requirements
 
-* Performance Degradation
+The implementation shows mastery of both technical security concepts and the practical aspects of integrating them into modern development workflows - skills that are essential for securing today's cloud-native applications without sacrificing delivery speed.
 
-  * Slow Regular Expression Parsing
-  * Delay of creating string due to +(plus) operator
-  * Delay due to unnecessary object creation
+## Getting Started
 
-* Errors
+For technical teams looking to evaluate this solution:
 
-  * AssertionError
-  * ExceptionInInitializerError
-  * FactoryConfigurationError
-  * GenericSignatureFormatError
-  * NoClassDefFoundError
-  * OutOfMemoryError (Java heap space) 
-  * OutOfMemoryError (Requested array size exceeds VM limit)
-  * OutOfMemoryError (unable to create new native thread)
-  * OutOfMemoryError (GC overhead limit exceeded)
-  * OutOfMemoryError (PermGen space)
-  * OutOfMemoryError (Direct buffer memory)
-  * StackOverflowError
-  * TransformerFactoryConfigurationError
-  * UnsatisfiedLinkError
+1. Clone the repository to explore the infrastructure code and pipeline definitions
+2. Review the Terraform modules for AWS infrastructure provisioning
+3. Examine the Jenkins pipeline for CI/CD and security testing integration
+4. Study the Kubernetes configurations for secure deployment practices
 
-:clock4: EasyBuggy clones:
--
-* [EasyBuggy Boot](https://github.com/k-tamura/easybuggy4sb)
+---
 
-  EasyBuggy clone build on Spring Boot
-
-  ![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_ebsb.gif)
-
-* [EasyBuggy Bootlin](https://github.com/k-tamura/easybuggy4kt)
-
-  EasyBuggy clone build on Spring Boot and written in Kotlin
-
-  ![logo](https://raw.githubusercontent.com/wiki/k-tamura/easybuggy/images/mov_ebkt.gif)
-
-* [EasyBuggy Django](https://github.com/k-tamura/easybuggy4django)
-
-  EasyBuggy clone build on Django 2 and written in Python
-
-  　![logo](https://github.com/k-tamura/easybuggy4django/blob/master/static/easybuggy.png)
+*This project represents an end-to-end implementation of DevSecOps principles, aligning with industry frameworks like NIST Secure Software Development Framework (SSDF) and the OWASP Software Assurance Maturity Model (SAMM).*
