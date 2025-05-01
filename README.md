@@ -70,6 +70,28 @@ The architecture implements a full security-focused deployment pipeline with:
 └─────────────────┘     └──────────────────┘     └─────────────────┘
 ```
 
+## Jenkins Pipeline Implementation
+
+Our CI/CD pipeline is implemented using a sophisticated Jenkins pipeline that automates the entire application lifecycle from code to production:
+
+### Pipeline Features
+
+- **Automated Code Analysis**: Integration with SonarCloud for comprehensive static code analysis
+- **Containerization**: Multi-stage Docker builds with security scanning and verification
+- **Container Registry Integration**: Automated pushing to AWS ECR with proper tagging and versioning
+- **Kubernetes Deployment**: Seamless deployment to EKS with namespace management and rollout verification
+- **Comprehensive Error Handling**: Detailed diagnostics and recovery procedures for pipeline failures
+- **Deployment Verification**: Automated verification of successful deployments with service endpoint validation
+
+The pipeline handles the complete workflow:
+1. Code analysis and quality verification
+2. Secure Docker image building and scanning
+3. Image publication to ECR with multiple tagging strategies
+4. Kubernetes deployment with namespace management
+5. Deployment verification and service validation
+6. Comprehensive reporting and documentation
+
+This implementation demonstrates how security can be integrated into every step of the development process without sacrificing deployment speed.
 
 ## For Hiring Managers
 
@@ -81,6 +103,7 @@ This project demonstrates proficiency in:
 4. **Container Orchestration**: Deploying and managing applications on Kubernetes with security considerations
 5. **Security Testing Automation**: Integrating and automating multiple security testing methodologies
 6. **Compliance Automation**: Building systems that continuously validate security and compliance requirements
+7. **CI/CD Pipeline Engineering**: Constructing robust, secure deployment pipelines with proper error handling and verification
 
 The implementation shows mastery of both technical security concepts and the practical aspects of integrating them into modern development workflows - skills that are essential for securing today's cloud-native applications without sacrificing delivery speed.
 
@@ -92,6 +115,22 @@ For technical teams looking to evaluate this solution:
 2. Review the Terraform modules for AWS infrastructure provisioning
 3. Examine the Jenkins pipeline for CI/CD and security testing integration
 4. Study the Kubernetes configurations for secure deployment practices
+5. Run the pipeline using the provided Jenkinsfile to see the complete workflow in action
+
+## Pipeline Requirements
+
+To run the CI/CD pipeline, you'll need:
+
+- Jenkins with the following plugins:
+  - Docker Pipeline
+  - Kubernetes CLI
+  - AWS ECR
+  - SonarQube Scanner
+  - Credentials Binding
+- AWS credentials configured in Jenkins
+- Docker installed on the Jenkins agent
+- Kubernetes configuration for the target cluster
+- SonarCloud account and configuration
 
 ---
 
