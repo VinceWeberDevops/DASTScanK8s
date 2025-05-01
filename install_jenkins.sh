@@ -110,13 +110,6 @@ curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/d
 sudo mv /tmp/eksctl /usr/local/bin
 check_status "eksctl installation"
 
-# Install and configure Docker
-log "Installing Docker..."
-sudo yum install docker -y
-sudo usermod -aG docker $USER
-sudo usermod -aG docker jenkins
-check_status "Docker installation"
-
 # Start and enable services
 log "Starting services..."
 sudo systemctl daemon-reload
@@ -130,4 +123,3 @@ sudo systemctl status jenkins --no-pager
 
 log "Installation script completed successfully!"
 echo "NOTE: You may need to log out and log back in for Docker group changes to take effect for user '$USER'."
-
